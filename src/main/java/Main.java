@@ -1,9 +1,11 @@
-import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
@@ -25,7 +27,7 @@ public class Main {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws SQLException {
         EclipseLinkJpaVendorAdapter vendorAdapter = new EclipseLinkJpaVendorAdapter();
-        vendorAdapter.setDatabase(Database.POSTGRESQL);
+        vendorAdapter.setDatabase(Database.H2);
         vendorAdapter.setGenerateDdl(false);
         vendorAdapter.setShowSql(true);
 
@@ -33,17 +35,17 @@ public class Main {
         props.setProperty("javax.persistence.transactionType", "RESOURCE_LOCAL");
         props.setProperty("eclipselink.jdbc.native-sql", "true");
         props.setProperty("eclipselink.weaving", "false");
-        props.setProperty("javax.persistence.jdbc.url", "");
-        props.setProperty("javax.persistence.jdbc.driver", org.postgresql.Driver.class.getName());
+        props.setProperty("eclipselink.ddl-generation", "create-tables");
 
-        final PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        dataSource.setUrl("jdbc:postgresql:///jpa");
+        props.setProperty("javax.persistence.jdbc.driver", org.h2.Driver.class.getName());
+
+        final EmbeddedDatabase database = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
 
         final LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
         factory.setJpaProperties(props);
         factory.setPackagesToScan("model", "repository");
-        factory.setDataSource(dataSource);
+        factory.setDataSource(database);
 
         return factory;
     }
