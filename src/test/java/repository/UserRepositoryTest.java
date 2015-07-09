@@ -26,13 +26,13 @@ public class UserRepositoryTest extends AbstractTransactionalTestNGSpringContext
         account = accountRepo.saveAndFlush(account);
 
         User user = new User();
-        user.id = new UserPK(1L, account.id);
+        user.id = 1L;
         user.account = account;
         user.email = "foo@bar.com";
 
         user = userRepo.saveAndFlush(user);
 
-        assertNotNull(userRepo.findOne(user.id), "Expected User object to not be null");
+        assertNotNull(userRepo.findOne(new UserPK(user.id, account.id)), "Expected User object to not be null");
     }
 
     @Autowired

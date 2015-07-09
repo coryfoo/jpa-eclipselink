@@ -4,12 +4,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@IdClass(UserPK.class)
 public class User implements Serializable {
 
-    @EmbeddedId
-    public UserPK id;
+    @Id
+    public Long id;
 
-    @MapsId("account")
+    @Id
     @ManyToOne(targetEntity = Account.class)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     public Account account;
