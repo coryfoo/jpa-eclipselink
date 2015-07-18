@@ -1,5 +1,6 @@
 package main;
 
+import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -38,12 +39,11 @@ public class Main {
         vendorAdapter.setShowSql(true);
 
         final Properties props = new Properties();
-        props.setProperty("javax.persistence.transactionType", "RESOURCE_LOCAL");
-        props.setProperty("eclipselink.jdbc.native-sql", "true");
-        props.setProperty("eclipselink.weaving", "false");
-        props.setProperty("eclipselink.ddl-generation", "create-tables");
-
-        props.setProperty("javax.persistence.jdbc.driver", org.h2.Driver.class.getName());
+        props.setProperty(PersistenceUnitProperties.TRANSACTION_TYPE, "RESOURCE_LOCAL");
+        props.setProperty(PersistenceUnitProperties.NATIVE_SQL, "true");
+        props.setProperty(PersistenceUnitProperties.WEAVING, "false");
+        props.setProperty(PersistenceUnitProperties.DDL_GENERATION, "create-tables");
+        props.setProperty(PersistenceUnitProperties.JDBC_DRIVER, org.h2.Driver.class.getName());
 
         final LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);

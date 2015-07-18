@@ -18,4 +18,6 @@ public class User implements Serializable {
     @Column(name = "email")
     public String email;
 
+    @Version
+    public int beanVersion;
 }
