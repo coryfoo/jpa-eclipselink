@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     @Id
+    @GeneratedValue
     public Long id;
 
     @Id
@@ -20,4 +21,14 @@ public class User implements Serializable {
 
     @Version
     public int beanVersion;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", account=" + account +
+                ", email='" + email + '\'' +
+                ", beanVersion=" + beanVersion +
+                '}';
+    }
 }

@@ -1,15 +1,13 @@
 package model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Version;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 public class Account implements Serializable {
 
     @Id
+    @GeneratedValue
     @Column(name = "id")
     public Long id;
 
@@ -18,4 +16,13 @@ public class Account implements Serializable {
 
     @Version
     public int beanVersion;
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", beanVersion=" + beanVersion +
+                '}';
+    }
 }
