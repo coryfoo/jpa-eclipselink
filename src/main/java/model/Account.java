@@ -9,20 +9,38 @@ public class Account implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    public Long id;
+    private Long id;
 
     @Column(name = "name")
-    public String name;
+    private String name;
 
     @Version
-    public int beanVersion;
+    private int beanVersion;
+
+
 
     @Override
     public String toString() {
         return "Account{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", beanVersion=" + beanVersion +
+                "id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", beanVersion=" + getBeanVersion() +
                 '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getBeanVersion() {
+        return beanVersion;
     }
 }

@@ -20,30 +20,28 @@ public class UserRepositoryTest extends AbstractTransactionalTestNGSpringContext
     @Transactional(propagation = Propagation.NEVER)
     public void testCreateUser() {
         Account account = new Account();
-        account.name = "My Account";
-        account.id = 1L;
+        account.setName("My Account");
 
         account = accountRepo.saveAndFlush(account);
 
         User user = new User();
-        user.id = 1L;
-        user.account = account;
-        user.email = "foo@bar.com";
+        user.setAccount(account);
+        user.setEmail("foo@bar.com");
         user = userRepo.saveAndFlush(user);
 
         //User user2 = userRepo.findOne(new UserPK(user.id, account.id));
-        User user2 = userRepo.findById(user.id);
+        User user2 = userRepo.findById(user.getId());
         assertNotNull(user2, "Expected User object to not be null");
-        assertEquals(user2.beanVersion, user.beanVersion);
+        assertEquals(user2.getBeanVersion(), user.getBeanVersion());
 
-        user.email = "nope";
+        user.setEmail("nope");
         user = userRepo.saveAndFlush(user);
 
         //user2 = userRepo.findOne(new UserPK(user.id, account.id));
-        user2 = userRepo.findById(user.id);
+        user2 = userRepo.findById(user.getId());
         assertNotNull(user2, "Expected User object to not be null");
-        assertEquals(user2.email, user.email);
-        assertEquals(user2.beanVersion, user.beanVersion);
+        assertEquals(user2.getEmail(), user.getEmail());
+        assertEquals(user2.getBeanVersion(), user.getBeanVersion());
     }
 
     @Autowired

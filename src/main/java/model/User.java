@@ -9,26 +9,50 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue
-    public Long id;
+    private Long id;
 
     @Id
-    @ManyToOne(targetEntity = Account.class)
+    @ManyToOne(targetEntity = Account.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
-    public Account account;
+    private Account account;
 
     @Column(name = "email")
-    public String email;
+    private String email;
 
     @Version
-    public int beanVersion;
+    private int beanVersion;
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", account=" + account +
-                ", email='" + email + '\'' +
-                ", beanVersion=" + beanVersion +
+                "id=" + getId() +
+                ", account=" + getAccount() +
+                ", email='" + getEmail() + '\'' +
+                ", beanVersion=" + getBeanVersion() +
                 '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getBeanVersion() {
+        return beanVersion;
     }
 }
